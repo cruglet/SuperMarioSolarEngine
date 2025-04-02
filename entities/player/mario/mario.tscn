@@ -1,4 +1,4 @@
-[gd_scene load_steps=391 format=3 uid="uid://dgqp3sqvmcvpu"]
+[gd_scene load_steps=419 format=3 uid="uid://dgqp3sqvmcvpu"]
 
 [ext_resource type="Script" uid="uid://bg4t154sge7br" path="res://entities/player/shared/player.gd" id="1_87j6i"]
 [ext_resource type="Texture2D" uid="uid://bbgppbst4akvn" path="res://entities/player/mario/anime/backflip.png" id="2_i2o54"]
@@ -161,6 +161,8 @@
 [ext_resource type="AudioStream" uid="uid://ddjllqvgrxfqj" path="res://entities/player/mario/voice_sunshine/woah2_ledge.wav" id="152_7j1yj"]
 [ext_resource type="AudioStream" uid="uid://cutedbxm5o46d" path="res://entities/player/mario/voice_sunshine/woah3_ledge.wav" id="153_5c2b3"]
 [ext_resource type="PackedScene" uid="uid://d1wf1b4d4xfvf" path="res://entities/player/shared/particles/sparkle.tscn" id="158_1s3ss"]
+[ext_resource type="Script" uid="uid://c0qpcf11fy1s5" path="res://entities/player/mario/health_manager.gd" id="162_efjxb"]
+[ext_resource type="AnimationNodeStateMachine" uid="uid://bgu36sxburng1" path="res://entities/player/mario/grounded_statemachine.tres" id="163_np2tc"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_8n85e"]
 atlas = ExtResource("2_i2o54")
@@ -2080,6 +2082,112 @@ particle_offset = Vector2(0, 0)
 particle_scale = Vector2(1, 1)
 loop_delay = 2
 
+[sub_resource type="Animation" id="Animation_u4fjx"]
+resource_name = "crouch_spin"
+
+[sub_resource type="Animation" id="Animation_qko5d"]
+resource_name = "crouching"
+
+[sub_resource type="Animation" id="Animation_ifrah"]
+resource_name = "diving"
+
+[sub_resource type="Animation" id="Animation_cpqj3"]
+resource_name = "double_jump"
+
+[sub_resource type="Animation" id="Animation_cootw"]
+resource_name = "falling"
+
+[sub_resource type="Animation" id="Animation_ae2dx"]
+resource_name = "grounded_spin"
+
+[sub_resource type="Animation" id="Animation_efjxb"]
+resource_name = "idle"
+
+[sub_resource type="Animation" id="Animation_xh3w7"]
+resource_name = "jump"
+
+[sub_resource type="Animation" id="Animation_spsxp"]
+resource_name = "midair_spin"
+
+[sub_resource type="Animation" id="Animation_5iloq"]
+resource_name = "triple_jump"
+
+[sub_resource type="Animation" id="Animation_np2tc"]
+resource_name = "walk"
+
+[sub_resource type="Animation" id="Animation_mqps4"]
+resource_name = "idle_swim"
+
+[sub_resource type="Animation" id="Animation_q75g6"]
+resource_name = "backflip"
+
+[sub_resource type="Animation" id="Animation_hnhty"]
+resource_name = "crouch_walking"
+
+[sub_resource type="Animation" id="Animation_ata35"]
+resource_name = "ground_pound"
+
+[sub_resource type="Animation" id="Animation_5gjtv"]
+resource_name = "spinjump"
+
+[sub_resource type="Animation" id="Animation_ngayn"]
+resource_name = "bonk"
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_xh3w7"]
+_data = {
+&"backflip": SubResource("Animation_q75g6"),
+&"bonk": SubResource("Animation_ngayn"),
+&"crouch_spin": SubResource("Animation_u4fjx"),
+&"crouch_walking": SubResource("Animation_hnhty"),
+&"crouching": SubResource("Animation_qko5d"),
+&"diving": SubResource("Animation_ifrah"),
+&"double_jump": SubResource("Animation_cpqj3"),
+&"falling": SubResource("Animation_cootw"),
+&"ground_pound": SubResource("Animation_ata35"),
+&"grounded_spin": SubResource("Animation_ae2dx"),
+&"idle": SubResource("Animation_efjxb"),
+&"idle_swim": SubResource("Animation_mqps4"),
+&"jump": SubResource("Animation_xh3w7"),
+&"midair_spin": SubResource("Animation_spsxp"),
+&"spinjump": SubResource("Animation_5gjtv"),
+&"triple_jump": SubResource("Animation_5iloq"),
+&"walk": SubResource("Animation_np2tc")
+}
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_np2tc"]
+animation = &"idle_swim"
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_spsxp"]
+advance_mode = 2
+
+[sub_resource type="AnimationNodeStateMachine" id="AnimationNodeStateMachine_np2tc"]
+states/idle_swim/node = SubResource("AnimationNodeAnimation_np2tc")
+states/idle_swim/position = Vector2(379, 100)
+transitions = ["Start", "idle_swim", SubResource("AnimationNodeStateMachineTransition_spsxp")]
+graph_offset = Vector2(14, -125)
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_xh3w7"]
+advance_mode = 2
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_cpqj3"]
+advance_mode = 2
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_np2tc"]
+advance_mode = 2
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_5iloq"]
+advance_mode = 2
+
+[sub_resource type="AnimationNodeStateMachine" id="AnimationNodeStateMachine_ae2dx"]
+states/End/position = Vector2(659, 71)
+"states/Grounded Movement/node" = ExtResource("163_np2tc")
+"states/Grounded Movement/position" = Vector2(429.718, -29)
+states/Start/position = Vector2(206, 71)
+"states/Swim Movement/node" = SubResource("AnimationNodeStateMachine_np2tc")
+"states/Swim Movement/position" = Vector2(429.718, 159)
+transitions = ["Start", "Grounded Movement", SubResource("AnimationNodeStateMachineTransition_xh3w7"), "Start", "Swim Movement", SubResource("AnimationNodeStateMachineTransition_cpqj3"), "Grounded Movement", "End", SubResource("AnimationNodeStateMachineTransition_np2tc"), "Swim Movement", "End", SubResource("AnimationNodeStateMachineTransition_5iloq")]
+graph_offset = Vector2(-113.282, -194)
+
 [node name="Mario" type="CharacterBody2D" node_paths=PackedStringArray("doll", "state_manager", "movement", "input", "push_rays", "hitbox", "dive_hitbox", "small_hitbox", "water_check", "crouchlock", "spin_hitbox")]
 collision_layer = 2
 floor_constant_speed = true
@@ -2101,9 +2209,7 @@ spin_hitbox = NodePath("Areas/SpinHitbox")
 [node name="Doll" type="AnimatedSprite2D" parent="."]
 position = Vector2(0, -24)
 sprite_frames = SubResource("SpriteFrames_hmp25")
-animation = &"spin_attack"
-frame = 4
-frame_progress = 1.0
+animation = &"walk"
 
 [node name="Hitbox" type="CollisionShape2D" parent="."]
 position = Vector2(0, -16)
@@ -2523,5 +2629,18 @@ animation_airborne = &"butt_slide_jump"
 hitbox_type = "Small"
 animation = &"butt_slide"
 particles = Array[ExtResource("55_bxnxc")]([SubResource("Resource_d3rr6")])
+
+[node name="HealthManager" type="Node" parent="."]
+script = ExtResource("162_efjxb")
+
+[node name="AnimationTree" type="AnimationTree" parent="."]
+libraries = {
+&"": SubResource("AnimationLibrary_xh3w7")
+}
+tree_root = SubResource("AnimationNodeStateMachine_ae2dx")
+"parameters/Grounded Movement/conditions/in_water" = false
+"parameters/Grounded Movement/conditions/is_jumping" = false
+"parameters/Grounded Movement/conditions/is_triple_jumping" = false
+"parameters/Grounded Movement/conditions/is_walking" = false
 
 [connection signal="body_entered" from="Areas/SpinHitbox" to="StateManager/Dry/Spin" method="_on_spin_hitbox_body_entered"]
