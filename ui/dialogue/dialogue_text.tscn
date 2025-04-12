@@ -1,0 +1,22 @@
+[gd_scene load_steps=4 format=3 uid="uid://d21d11hb0oci"]
+
+[ext_resource type="Script" uid="uid://y2mkd2xcq2gm" path="res://ui/dialogue/dialogue_text.gd" id="1_gb3fe"]
+[ext_resource type="Script" uid="uid://b0t61aoe4b8sh" path="res://util/components/ui/dialogue/dialogue_component.gd" id="2_63vmq"]
+
+[sub_resource type="Resource" id="Resource_63vmq"]
+script = ExtResource("2_63vmq")
+dialogue_text = Array[String](["<smile>This is a test for dialogue...", "A really...", "<rage>slow...", "<neutral>test"])
+scrolling = true
+scroll_type = 0
+locale_id = &"dialogue_test"
+metadata/_custom_type_script = "uid://b0t61aoe4b8sh"
+
+[node name="DialogueText" type="RichTextLabel"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+bbcode_enabled = true
+script = ExtResource("1_gb3fe")
+dialogue_component = Array[ExtResource("2_63vmq")]([SubResource("Resource_63vmq")])
